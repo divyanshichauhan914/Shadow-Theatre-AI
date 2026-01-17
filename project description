@@ -1,0 +1,69 @@
+1. Problem Statement
+● Context & Background
+Shadow puppetry is one of the oldest forms of storytelling, but it's dying out because it's so hard to do. You need to carve puppets, set up lighting, and have multiple people to act out a story. As a student interested in both culture and tech, I wanted to see if I could use AI to recreate this "vibe" digitally.
+
+● Why it Matters
+Most AI video tools try to look like "real life" or "Disney movies." There isn't really anything out there that focuses on the minimalist, high-contrast aesthetic of shadow theatre. This project matters because it shows that AI can be used to preserve old art styles, not just replace them with modern ones.
+
+● System Objectives
+My goal was to build a "one-click" system. You give it a theme, and it handles the script, the art, the voiceover, and the final video. I wanted it to be easy enough for a teacher to use in a classroom to explain morals to kids.
+
+● Constraints & Assumptions
+The biggest constraint was consistency. AI usually changes the look of characters in every frame. I had to figure out a way to keep the "Shadow Style" consistent throughout the 5 scenes.
+
+2. My Approach
+● How the System Works
+I built the app using a pipelined architecture. It doesn't just "guess" the video; it builds it piece by piece:
+
+The Brain (Groq LLM): It takes the user's idea and writes a 5-act play. I forced it to output JSON so my Python code could read it easily.
+
+The Artist (Pollinations AI): It generates 5 images based on the script. I used a specific "prompt wrapper" to make sure everything looked like it was made of shadows and parchment paper.
+
+The Voice (Edge TTS): It turns the text into audio. I included both English and Hindi options to make it more inclusive.
+
+The Editor (MoviePy): This is where the magic happens. It takes the images and audio and "stitches" them into an MP4.
+
+● Tools I Used
+Python: The core language.
+
+Streamlit: For the front-end (it's much faster than building a full React site).
+
+MoviePy: For the video editing logic.
+
+Llama 3.3 & Flux Models: For the text and images.
+
+● Key Design Decisions
+I decided to go with a Black and Gold theme for the UI. Since the puppets are shadows, a white background would have looked terrible. I also added a "Puppeteer Motion" zoom effect. Static images looked boring, so I wrote a function to make the images slowly zoom in, which makes it feel like a real puppet is moving behind a screen.
+
+3. Results & Observations
+● The Prototype
+The final app is a dark-mode web tool. It has a Gallery feature so you don't lose your work if the page refreshes. I also added "Checkmarks" in the UI so the user can see exactly which scene is being "carved" in real-time.
+
+● What I Achieved
+Total video generation in under 2 minutes.
+
+High-quality Hindi and English support.
+
+A specific, "hand-crafted" look that doesn't look like standard AI art.
+
+● Limitations
+The AI sometimes gets confused with very complex characters (like a robot with 10 arms). Also, since it's a "minor project," it depends on an internet connection to talk to the AI models.
+
+4. What I Learned (Personal Reflections)
+● Technical Growth
+I learned a lot about Async Programming. Getting the audio to generate while the images were still downloading was a challenge, but using asyncio helped speed things up. I also learned how to "jailbreak" an image model's style using very specific keywords like "golden rim lighting."
+
+● Challenges Faced
+The biggest headache was API Timeouts. Sometimes the image generator would just stop responding. I fixed this by writing a "Retry Loop"—if it fails, the code waits 3 seconds and tries again automatically. This made the system much more stable for my final demo.
+
+● Future Ideas
+If I had more time, I’d add Background Music. A traditional flute or drum score would make the shadow theatre feel much more authentic.
+
+5. References & Disclosure
+Text Model: Llama-3.3-70B via Groq.
+
+Image Model: Flux-1 via Pollinations.ai.
+
+Libraries: Streamlit, MoviePy, Edge-TTS.
+
+AI Disclosure: I used AI to help me generate the images and narrations within the app, and for debugging some of the MoviePy "zoom" functions.
